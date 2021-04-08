@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
     KeephubContext.displayName = 'KeephubContext'
 }
 
-const KeephubProvider = ({ children }) => {
+const KeephubProvider = ({ children, onBeforeLift=null }) => {
     const [ user, setUser ] = useState(null);
     const [ groups, setGroups ] = useState(null);
     const [ languages, setLanguages ] = useState(null);
@@ -59,7 +59,15 @@ const KeephubProvider = ({ children }) => {
     useEffect(() => {
 
         if (user !== null && groups !== null && languages !== null && orgChart !== null && theme !== null ) {
-            setLoading(false);
+
+            if (onBeforeLift !== null) {
+                Promise.resolve(onBeforeLift(user)).finally(() => {
+                    setLoading(false);
+                });
+            } else {
+                setLoading(false);
+            }
+             
         }
 
     }, [ user, groups, languages, orgChart, theme ]);
