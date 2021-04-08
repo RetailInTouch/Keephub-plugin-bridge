@@ -7,9 +7,6 @@ const App = () => {
 
 	const onBeforeLift = ({ preferredLanguage }) => {
         return new Promise((resolve) => {
-
-			console.log('------------', preferredLanguage);
-
 			resolve();
 		});
     }
