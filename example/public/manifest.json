@@ -1,6 +1,6 @@
 {
-  "short_name": "intouch-plugin-bridge",
-  "name": "intouch-plugin-bridge",
+  "short_name": "keephub-plugin-bridge",
+  "name": "keephub-plugin-bridge",
   "icons": [
     {
       "src": "favicon.ico",
