@@ -4,7 +4,7 @@
   "description": "",
   "author": "timhonders",
   "license": "MIT",
-  "repository": "https://github.com/RetailInTouch/Keegphub-plugin-bridge",
+  "repository": "https://github.com/RetailInTouch/Keephub-plugin-bridge",
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
