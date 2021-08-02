@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { 
-    createMuiTheme 
+    createTheme as createMuiTheme
 } from '@material-ui/core/styles';
 
 import { 
