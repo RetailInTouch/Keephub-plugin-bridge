@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import { 
-    createTheme as createMuiTheme
+    createTheme as createMaterialTheme
 } from '@material-ui/core/styles';
 
 import { 
@@ -36,5 +36,5 @@ export const isDebug = () => {
 }
 
 export const createKeephubTheme = (customSettings) => {
-    return createMuiTheme(createTheme(_.merge(themeSettings, customSettings)));
+    return createMaterialTheme(createTheme(_.merge(themeSettings, customSettings)));
 }
