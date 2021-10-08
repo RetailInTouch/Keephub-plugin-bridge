@@ -5,7 +5,7 @@ import Example from './Example';
 
 const App = () => {
 
-	const onBeforeLift = ({ preferredLanguage }) => {
+	const onBeforeLift = ({ user, orgChart }) => {
         return new Promise((resolve) => {
 			resolve();
 		});

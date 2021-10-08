@@ -21,6 +21,7 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
     const [ orgChart, setorgChart ] = useState(null);
     const [ theme, setTheme ] = useState(null);
     const [ themeConfig, setThemeConfig ] = useState(null);
+    const [ jwtPluginToken, setJwtPluginToken ] = useState(null);
 
     const [ loading, setLoading ] = useState(true);
 
@@ -44,7 +45,10 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
             setLanguages((language.availableLanguages ? language.availableLanguages : language) );
         });
         const unSubscribeThemeConfig = bridge.subscribe('themeConfig', (theme) => {
-            setTheme(createKeephubTheme(theme));
+            setThemeConfig(theme);
+        });
+        const unSubscribeJwtPluginToken = bridge.subscribe('jwtPluginToken', (jwtPluginToken) => {
+            setJwtPluginToken(jwtPluginToken)
         });
 
         bridge.userData();
@@ -52,6 +56,7 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
         bridge.orgChart()
         bridge.languageConfig()
         bridge.themeConfig();
+        bridge.jwtPluginToken();
 
         refBridge.current = bridge;
 
@@ -61,16 +66,23 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
             unSubscribeOrgChart();
             unSubscribeThemeConfig();
             unSubscribeLanguage();
+            unSubscribeJwtPluginToken();
         }
 
     }, [ setUser, setGroups, setorgChart, setLanguages, setTheme ]);
 
     useEffect(() => {
 
-        if (user !== null && groups !== null && languages !== null && orgChart !== null && theme !== null ) {
+        if (user !== null && groups !== null && languages !== null && orgChart !== null && theme !== null, jwtPluginToken !== null ) {
 
             if (onBeforeLift !== null) {
-                Promise.resolve(onBeforeLift(user)).finally(() => {
+                Promise.resolve(onBeforeLift({
+                    user: user,
+                    groups: groups,
+                    languages: languages,
+                    orgChart: orgChart,
+                    jwtPluginToken: jwtPluginToken
+                })).finally(() => {
                     setLoading(false);
                 });
             } else {
@@ -91,6 +103,21 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
     }, [ user, themeConfig ]);
 
 
+    useEffect(() => {
+        if (isDebug() && !loading) {
+            console.log('[KeephubProvider] =============================================');
+            console.log(JSON.stringify({
+                user: user,
+                userGroups: groups,
+                languages: languages,
+                orgunits: orgChart,
+                jwtPluginToken: jwtPluginToken
+            }));
+            console.log('[KeephubProvider] =============================================');
+        }
+    }, [ loading ]);
+
+
     return (
         <KeephubContext.Provider value={{ 
             bridge: refBridge.current,
@@ -98,6 +125,7 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
             userGroups: groups,
             languages: languages,
             orgunits: orgChart,
+            jwtPluginToken: jwtPluginToken
         }}>
             <CssBaseline />
             {

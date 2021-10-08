@@ -1,6 +1,4 @@
-import devdata              from './dev-data.json';
-
-class IntouchBridge {
+class KeephubBridge {
 
     constructor(origin, iframe=true, debug=false) {
 
@@ -37,26 +35,27 @@ class IntouchBridge {
             switch (data.action) {
 
                 case 'userData':
-                    if (!this.iframe) { data.data = devdata.user; }
+                    if (!this.iframe) { data.data = {}; }
                     this.dispatch('userData', data.data)
                     break;
 
                 case 'themeConfig':
+                    if (!this.iframe) { data.data = {}; }
                     this.dispatch('themeConfig', data.data)
                     break;
 
                 case 'languageConfig':
-                    if (!this.iframe) { data.data = devdata.language; }
+                    if (!this.iframe) { data.data = []; }
                     this.dispatch('languageConfig', data.data)
                     break;
 
                 case 'groups':
-                    if (!this.iframe) { data.data = devdata.userGroups; }
+                    if (!this.iframe) { data.data = {}; }
                     this.dispatch('groups', data.data)
                     break;
 
                 case 'orgChart':
-                    if (!this.iframe) { data.data = devdata.orgunits; }
+                    if (!this.iframe) { data.data = []; }
                     this.dispatch('orgChart', data.data)
                     break;
 
@@ -80,6 +79,10 @@ class IntouchBridge {
                     this.dispatch('barcode', data.data)
                     break;
 
+                case 'jwtPluginToken':
+                    this.dispatch('jwtPluginToken', data.data)
+                    break;
+ 
                 default:
                     break;
 
@@ -108,7 +111,7 @@ class IntouchBridge {
     }
     
     subscribe(action, callback) {
-        
+
         if (!Object.prototype.hasOwnProperty.call(this.listeners, action)) {
             this.listeners[action] = [];
         }
@@ -148,6 +151,10 @@ class IntouchBridge {
         this.postMessage('groups'); 
     }
 
+    jwtPluginToken() {
+        this.postMessage('jwtPluginToken'); 
+    }
+
     orgChart() {
         this.postMessage('orgChart'); 
     }
@@ -184,4 +191,4 @@ class IntouchBridge {
 
 }
 
-export default IntouchBridge;
+export default KeephubBridge;
