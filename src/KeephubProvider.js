@@ -20,11 +20,20 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
     const [ languages, setLanguages ] = useState(null);
     const [ orgChart, setorgChart ] = useState(null);
     const [ theme, setTheme ] = useState(null);
+    const [ themeConfig, setThemeConfig ] = useState(null);
 
     const [ loading, setLoading ] = useState(true);
 
     const refBridge = useRef(null);
 
+    useEffect(() => {
+        if (isDebug()) {
+            console.log('[KeephubProvider] =============================================');
+            console.log('[KeephubProvider] Debug mode activated');
+            console.log('[KeephubProvider] =============================================');
+        }
+    }, []);
+   
     useEffect(() => {
         const bridge = new Bridge('*', inIframe(), isDebug());
 
@@ -71,6 +80,16 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
         }
 
     }, [ user, groups, languages, orgChart, theme ]);
+
+    useEffect(() => {
+
+        if (themeConfig && user) {
+            const { subdomain='*' } = user;
+            setTheme(createKeephubTheme(themeConfig[subdomain]))
+        }
+
+    }, [ user, themeConfig ]);
+
 
     return (
         <KeephubContext.Provider value={{ 

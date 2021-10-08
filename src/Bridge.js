@@ -19,10 +19,10 @@ class IntouchBridge {
     receiveMessage(event) {
         const { origin, data } = event;
 
-        this.log('[IntouchBridge] receiveMessage ', event);
+        this.log('[KeephubBridge] receiveMessage ', event);
 
         if (origin !== this.origin && this.origin !== '*') { 
-            this.log('[IntouchBridge] receiveMessage wrong origin:' + origin + ' ' + this.origin);
+            this.log('[KeephubBridge] receiveMessage wrong origin:' + origin + ' ' + this.origin);
             return; 
         }
 
@@ -30,7 +30,7 @@ class IntouchBridge {
             return; 
         }
 
-        this.log('[IntouchBridge] receiveMessage ' + data.action , data);
+        this.log('[KeephubBridge] receiveMessage ' + data.action , data);
 
         if (data.action) {
 
@@ -96,7 +96,7 @@ class IntouchBridge {
             ...data
         }
 
-        this.log('[IntouchBridge] postMessage ' + action, data);
+        this.log('[KeephubBridge] postMessage ' + action, data);
 
         window.top.postMessage(payload, this.origin);
     }
