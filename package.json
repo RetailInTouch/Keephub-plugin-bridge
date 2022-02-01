@@ -1,6 +1,6 @@
 {
   "name": "keephub-plugin-bridge",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "author": "Tim Honders",
   "license": "MIT",
@@ -9,7 +9,7 @@
   "module": "dist/index.modern.js",
   "source": "src/index.js",
   "engines": {
-    "node": ">=10"
+    "node": ">=15"
   },
   "scripts": {
     "build": "microbundle-crl --no-compress --format modern,cjs",
@@ -17,9 +17,9 @@
     "prepare": "run-s build"
   },
   "peerDependencies": {
-    "react": "17.0.2",
-    "@material-ui/core": "4.12.1",
-    "react-router-dom": "5.1.2"
+    "react": ">= 17.0.2",
+    "@material-ui/core": "4.x",
+    "react-router-dom": "5.x"
   },
   "devDependencies": {
     "microbundle-crl": "0.13.10",

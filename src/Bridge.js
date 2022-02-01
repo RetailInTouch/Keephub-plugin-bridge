@@ -36,6 +36,12 @@ class KeephubBridge {
 
                 case 'userData':
                     if (!this.iframe) { data.data = {}; }
+
+                    // user.user fix
+                    //if (data.data?.user) {
+                        //data.data = data.data?.user
+                    //}
+
                     this.dispatch('userData', data.data)
                     break;
 
