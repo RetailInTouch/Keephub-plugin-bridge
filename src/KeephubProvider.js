@@ -95,9 +95,8 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
 
     useEffect(() => {
 
-        if (themeConfig && user) {
-            const { subdomain='*' } = user;
-            setTheme(createKeephubTheme(themeConfig[subdomain]))
+        if (themeConfig && themeConfig[0]?.data) {
+            setTheme(createKeephubTheme(themeConfig[0]?.data))
         }
 
     }, [ user, themeConfig ]);
