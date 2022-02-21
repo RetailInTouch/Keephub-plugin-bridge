@@ -95,8 +95,8 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
 
     useEffect(() => {
 
-        if (themeConfig && themeConfig[0]?.data) {
-            setTheme(createKeephubTheme(themeConfig[0]?.data))
+        if (themeConfig) {
+            setTheme(createKeephubTheme(themeConfig))
         }
 
     }, [ user, themeConfig ]);
@@ -115,7 +115,6 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
             console.log('[KeephubProvider] =============================================');
         }
     }, [ loading ]);
-
 
     return (
         <KeephubContext.Provider value={{ 
