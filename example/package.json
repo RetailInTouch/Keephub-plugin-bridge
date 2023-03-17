@@ -14,7 +14,7 @@
     "react-dom": "link:../node_modules/react-dom",
     "react-scripts": "link:../node_modules/react-scripts",
     "keephub-plugin-bridge": "link:..",
-    "@material-ui/core": "5.x",
+    "@material-ui/core": "4.12.1",
     "react-router-dom": "5.1.2"
   },
   "devDependencies": {
