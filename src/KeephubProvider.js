@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import { inIframe, isDebug, createKeephubTheme } from './utils';
 
@@ -116,32 +116,45 @@ const KeephubProvider = ({ children, onBeforeLift=null }) => {
         }
     }, [ loading ]);
 
-    return (
-        <KeephubContext.Provider value={{ 
-            bridge: refBridge.current,
-            user: user,
-            userGroups: groups,
-            languages: languages,
-            orgunits: orgChart,
-            jwtPluginToken: jwtPluginToken
-        }}>
-            <CssBaseline />
-            {
-                loading
-                ?
-                    <div style={{display: 'flex', height:'100%', alignItems: 'center', justifyContent: 'center', backgroundColor: '#efefef'}}><CircularProgress /></div>
-                :
-                    <MuiThemeProvider theme={theme}>
-                        { children }
-                    </MuiThemeProvider>
-            }
-        </KeephubContext.Provider> 
-    )
+  return (
+    <KeephubContext.Provider
+      value={{
+        bridge: refBridge.current,
+        user: user,
+        userGroups: groups,
+        languages: languages,
+        orgunits: orgChart,
+        jwtPluginToken: jwtPluginToken,
+        theme: theme
+      }}
+    >
+      <CssBaseline />
+      {loading ? (
+        <div
+          style={{
+            display: 'flex',
+            height: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#efefef'
+          }}
+        >
+          <CircularProgress />
+        </div>
+      ) : (
+        <StyledEngineProvider injectFirst>
+          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        </StyledEngineProvider>
+      )}
+    </KeephubContext.Provider>
+  );
 }
 
 const useKeephub = () => {
-    const { bridge, user, userGroups, languages, orgunits } = useContext(KeephubContext);
-    return { bridge, user, userGroups, languages, orgunits };
+  const { bridge, user, userGroups, languages, orgunits, theme } = useContext(
+    KeephubContext
+  )
+  return { bridge, user, userGroups, languages, orgunits, theme }
 }
 
 export { KeephubProvider, KeephubContext, useKeephub }
