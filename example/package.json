@@ -10,12 +10,15 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.15",
+    "@mui/styles": "^5.11.13",
+    "keephub-plugin-bridge": "link:..",
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
-    "react-scripts": "link:../node_modules/react-scripts",
-    "keephub-plugin-bridge": "link:..",
-    "@material-ui/core": "4.12.1",
-    "react-router-dom": "5.1.2"
+    "react-router-dom": "5.1.2",
+    "react-scripts": "link:../node_modules/react-scripts"
   },
   "devDependencies": {
     "@babel/plugin-syntax-object-rest-spread": "^7.8.3",

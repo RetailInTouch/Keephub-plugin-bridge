@@ -2,12 +2,11 @@ import React from 'react';
 
 import { useKeephub } from 'keephub-plugin-bridge';
 
-
-import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
+import Container from '@mui/material/Container'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
 
 const Example = () => {
     const { user } = useKeephub();
@@ -17,11 +16,11 @@ const Example = () => {
 			<Card style={{marginBottom: 10}}>
 				<CardHeader title="Demo plugin" style={{height: '40px' }} />
 				<CardContent>
-					<Typography variant="h6">Tekst</Typography>
+					<Typography>Tekst</Typography>
 				</CardContent>
 			</Card>
 		</Container>
 	);
 }
 
-export default Example;
+export default Example

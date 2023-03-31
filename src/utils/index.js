@@ -1,8 +1,6 @@
 import _ from 'lodash';
 
-import { 
-    createTheme as createMaterialTheme
-} from '@material-ui/core/styles';
+import { createTheme as createMaterialTheme, adaptV4Theme } from '@mui/material/styles';
 
 import { 
     createTheme,
@@ -36,5 +34,5 @@ export const isDebug = () => {
 }
 
 export const createKeephubTheme = (customSettings) => {
-    return createMaterialTheme(createTheme(_.merge(themeSettings, customSettings)));
+    return createMaterialTheme(createTheme(adaptV4Theme(_.merge(themeSettings, customSettings))));
 }

@@ -1,5 +1,5 @@
 
-import { darken } from '@material-ui/core/styles';
+import { darken } from '@mui/material/styles';
 
 const notchHeight = 0;
 
@@ -330,7 +330,7 @@ export function createTheme(ts) {
       },
       MuiInputBase: {
         root: {
-          '&$disabled': {
+          '&.Mui-disabled': {
             color: darken(ts.colors.labelColor, 0.2),
           },
         },
@@ -368,19 +368,9 @@ export function createTheme(ts) {
             borderBottom: 0,
           },
           '&:before, &:hover:before': {
-            borderBottom: 0,
+            borderBottom: '0 !important',
           },
-          '&:hover:not($disabled):not($focused):not($error)': {
-            backgroundColor: ts.colors.backgroundDefault,
-            //borderBottom: `1px solid ${ts.colors.backgroundMedium}`,
-          },
-          '&:hover:not($disabled):not($focused):not($error):before': {
-            borderBottom: 0,
-          },
-          '&:hover:not($disabled):not($focused):not($error) input': {
-            //padding: `${ts.spacingUnit * 2 - 1}px`,
-          },
-          '&$disabled:before': { borderBottom: 0 },
+          '&.Mui-disabled:before': { borderBottom: 0 }
         },
         adornedEnd: {
           paddingRight: `0 !important`,
@@ -395,7 +385,7 @@ export function createTheme(ts) {
           fontSize: '0.875rem',
           lineHeight: '1.2857em',
           color: ts.colors.labelColor,
-          '&$shrink': {
+          '&.MuiInputLabel-shrink': {
             transform: 'translate(16px, 5px) scale(0.57)',
             transformOrigin: 'top left',
             whiteSpace: 'nowrap',
@@ -417,7 +407,7 @@ export function createTheme(ts) {
           color: ts.colors.textPrimary,
           maxWidth: `calc(100% - ${ts.spacingUnit * 4}px)`,
           paddingRight: ts.spacingUnit * 4,
-          '&:hover:not($disabled):not($focused):not($error), &:hover:not($disabled):not($focused):not($error) svg': {
+          '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error), &:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error) svg': {
             color: ts.colors.primary,
           },
         },
@@ -509,7 +499,7 @@ export function createTheme(ts) {
           height: ts.footerBarHeight,
           padding: ts.spacingUnit,
           color: ts.colors.bottomNavigationAction,
-          '&$iconOnly': {
+          '&.MuiBottomNavigationAction-iconOnly': {
             paddingTop: ts.spacingUnit,
           },
           label: {
@@ -598,7 +588,7 @@ export function createTheme(ts) {
       },
       MuiSlider: {
         root: {
-          '&$disabled': {
+          '&.Mui-disabled': {
             color: ts.colors.backgroundMediumHover,
           },
         },
