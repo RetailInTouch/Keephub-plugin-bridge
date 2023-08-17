@@ -1,9 +1,8 @@
-
 import { darken } from '@mui/material/styles';
 
 const notchHeight = 0;
 
-export let themeSettings = {
+export const themeSettings = {
   webFontLoaderConfig: {
     google: {
       families: ['Montserrat:400,600', 'Material Icons'],
@@ -12,8 +11,8 @@ export let themeSettings = {
   typography: {
     fontFamily: 'Montserrat, "Helvetica Neue", Arial, sans-serif',
   },
-  colors: {			  
-    backgroundDefault: '#efefef',				
+  colors: {
+    backgroundDefault: '#efefef',
     backgroundMedium: '#888',
     backgroundMediumHover: '#b9b9b9',
     backgroundPaper: '#fff',
@@ -26,7 +25,7 @@ export let themeSettings = {
     bottomNavigationBadge: '#2aa354',
     divider: '#efefef',
     error: '#d00',
-    errorBg: 'rgba(221, 0, 0, 0.1)',			 
+    errorBg: 'rgba(221, 0, 0, 0.1)',
     labelColor: '#858585',
     info: '#286BA4',
     lightboxBackground: 'rgba(0, 0, 0, 0.88)',
@@ -67,16 +66,16 @@ export let themeSettings = {
   smallNewsItemPreviewHeight: 96,
   chatOverlayWidth: 360,
   placeholders: {
-    //smallProfileImage: smallProfileImagePlaceholder,
-    //newsPreview: newsPreviewPlaceholder,
-    //groupChat: groupChatPlaceholder,
+    // smallProfileImage: smallProfileImagePlaceholder,
+    // newsPreview: newsPreviewPlaceholder,
+    // groupChat: groupChatPlaceholder,
   },
-  //logoImage: logo,
-  //brandedPageLogo: logo,
+  // logoImage: logo,
+  // brandedPageLogo: logo,
   brandedPageLogoHeight: 64,
-  //brandedPageBackground: bgLogin,
+  // brandedPageBackground: bgLogin,
   brandedPageBackgroundPosition: '50% 50%',
-  //homepageBlocksBackground: bgLogin,
+  // homepageBlocksBackground: bgLogin,
   homepageBlocksBackgroundPosition: '50% 0',
   notchHeight,
   appBackground: '#efefef',
@@ -133,8 +132,7 @@ export function createTheme(ts) {
         contrastText: ts.colors.primaryContrastText,
         hover: ts.colors.primaryHover,
       },
-										 
-																	 
+
       textColor: ts.colors.textColor,
       secondary: {
         main: ts.colors.secondary,
@@ -146,7 +144,7 @@ export function createTheme(ts) {
         paper: ts.colors.backgroundPaper,
         unread: ts.colors.backgroundUnread,
         mediumHover: ts.colors.backgroundMediumHover,
-									   
+
         barelyWhite: ts.colors.barelyWhite,
       },
       text: {
@@ -171,7 +169,7 @@ export function createTheme(ts) {
         background: ts.colors.lightboxBackground,
       },
       divider: ts.colors.divider,
-															 
+
       bottomNavigationBadge: ts.colors.bottomNavigationBadge,
       bottomNavigationActiveColor: ts.colors.bottomNavigationActiveColor,
       bottomNavigationAction: ts.colors.bottomNavigationAction,
@@ -370,7 +368,7 @@ export function createTheme(ts) {
           '&:before, &:hover:before': {
             borderBottom: '0 !important',
           },
-          '&.Mui-disabled:before': { borderBottom: 0 }
+          '&.Mui-disabled:before': { borderBottom: 0 },
         },
         adornedEnd: {
           paddingRight: `0 !important`,
@@ -407,9 +405,10 @@ export function createTheme(ts) {
           color: ts.colors.textPrimary,
           maxWidth: `calc(100% - ${ts.spacingUnit * 4}px)`,
           paddingRight: ts.spacingUnit * 4,
-          '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error), &:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error) svg': {
-            color: ts.colors.primary,
-          },
+          '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error), &:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error) svg':
+            {
+              color: ts.colors.primary,
+            },
         },
       },
       MuiRadio: {

@@ -1,38 +1,37 @@
+import {
+  adaptV4Theme,
+  createTheme as createMaterialTheme,
+} from '@mui/material/styles';
 import _ from 'lodash';
 
-import { createTheme as createMaterialTheme, adaptV4Theme } from '@mui/material/styles';
-
-import { 
-    createTheme,
-    themeSettings  
-} from '../configuration/theme.config';
+import { createTheme, themeSettings } from '../configuration/theme.config';
 
 export const inIframe = () => {
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
-}
+  try {
+    return window.self !== window.top;
+  } catch (e) {
+    return true;
+  }
+};
 
 export const isDebug = () => {
-    try {
-
-        let search = '';
-        if (inIframe()) {
-            search = window.self.location.search;
-        } else {
-            search = window.top.location.search;
-        }
-
-        const urlParams = new URLSearchParams(search);
-        return (urlParams.get('debug') === 'true');
-
-    } catch (e) {
-        return true;
+  try {
+    let search = '';
+    if (inIframe()) {
+      search = window.self.location.search;
+    } else {
+      search = window.top.location.search;
     }
-}
 
-export const createKeephubTheme = (customSettings) => {
-    return createMaterialTheme(createTheme(adaptV4Theme(_.merge(themeSettings, customSettings))));
-}
+    const urlParams = new URLSearchParams(search);
+    return urlParams.get('debug') === 'true';
+  } catch (e) {
+    return true;
+  }
+};
+
+export const createKeephubTheme = customSettings => {
+  return createMaterialTheme(
+    createTheme(adaptV4Theme(_.merge(themeSettings, customSettings))),
+  );
+};

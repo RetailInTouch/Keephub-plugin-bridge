@@ -1,31 +1,27 @@
-import React from 'react';
-
 import { useEffect } from 'react';
-import { useHistory } from "react-router-dom";
-
+import { useHistory } from 'react-router-dom';
 import { useKeephub } from './KeephubProvider';
 
 const HistoryListener = ({ children }) => {
-    const history = useHistory();
-    const { bridge } = useKeephub();
+  const history = useHistory();
+  const { bridge } = useKeephub();
 
-    useEffect(() => {
-        const unlisten = history.listen((location) => {
-            bridge.changeLocation(location.pathname);
-        });
-        
-        const listener = bridge.subscribe('locationPop', () => {
-            history.goBack();
-        });
-  
-        return () => {
-            listener.remove();
-            unlisten();
-        }
-    }, [ history ]);
+  useEffect(() => {
+    const unlisten = history.listen(location => {
+      bridge.changeLocation(location.pathname);
+    });
 
-    return children;
+    const listener = bridge.subscribe('locationPop', () => {
+      history.goBack();
+    });
 
-}
+    return () => {
+      listener.remove();
+      unlisten();
+    };
+  }, [bridge, history]);
+
+  return children;
+};
 
 export default HistoryListener;
