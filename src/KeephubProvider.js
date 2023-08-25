@@ -1,6 +1,3 @@
-import CircularProgress from '@mui/material/CircularProgress';
-import CssBaseline from '@mui/material/CssBaseline';
-import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import React, {
   createContext,
@@ -10,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import Bridge from './Bridge';
-import { createKeephubTheme, inIframe, isDebug } from './utils';
+import { inIframe, isDebug } from './utils';
 
 const KeephubContext = createContext({});
 
@@ -19,13 +16,12 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const KeephubProvider = ({ children, onBeforeLift = null }) => {
-  const [user, setUser] = useState(null);
   const [groups, setGroups] = useState(null);
+  const [jwtPluginToken, setJwtPluginToken] = useState(null);
   const [languages, setLanguages] = useState(null);
   const [orgChart, setorgChart] = useState(null);
-  const [theme, setTheme] = useState(null);
   const [themeConfig, setThemeConfig] = useState(null);
-  const [jwtPluginToken, setJwtPluginToken] = useState(null);
+  const [user, setUser] = useState(null);
 
   const [loading, setLoading] = useState(true);
 
@@ -43,7 +39,9 @@ const KeephubProvider = ({ children, onBeforeLift = null }) => {
   useEffect(() => {
     const bridge = new Bridge('*', inIframe(), isDebug());
 
-    const unSubscribeUserDate = bridge.subscribe('userData', setUser);
+    const unSubscribeUserData = bridge.subscribe('userData', data =>
+      setUser(data.user),
+    );
     const unSubscribeGroups = bridge.subscribe('groups', setGroups);
     const unSubscribeOrgChart = bridge.subscribe('orgChart', setorgChart);
     const unSubscribeLanguage = bridge.subscribe('languageConfig', language => {
@@ -71,23 +69,25 @@ const KeephubProvider = ({ children, onBeforeLift = null }) => {
     refBridge.current = bridge;
 
     return () => {
-      unSubscribeUserDate();
+      unSubscribeUserData();
       unSubscribeGroups();
       unSubscribeOrgChart();
       unSubscribeThemeConfig();
       unSubscribeLanguage();
       unSubscribeJwtPluginToken();
     };
-  }, [setUser, setGroups, setorgChart, setLanguages, setTheme]);
+  }, []);
 
   useEffect(() => {
     if (
-      (user !== null &&
-        groups !== null &&
-        languages !== null &&
-        orgChart !== null &&
-        theme !== null,
-      jwtPluginToken !== null)
+      ![
+        groups,
+        jwtPluginToken,
+        languages,
+        orgChart,
+        themeConfig,
+        user,
+      ].includes(null)
     ) {
       if (onBeforeLift !== null) {
         Promise.resolve(
@@ -97,6 +97,7 @@ const KeephubProvider = ({ children, onBeforeLift = null }) => {
             languages,
             orgChart,
             jwtPluginToken,
+            themeConfig,
           }),
         ).finally(() => {
           setLoading(false);
@@ -105,13 +106,15 @@ const KeephubProvider = ({ children, onBeforeLift = null }) => {
         setLoading(false);
       }
     }
-  }, [jwtPluginToken, onBeforeLift, user, groups, languages, orgChart, theme]);
-
-  useEffect(() => {
-    if (themeConfig) {
-      setTheme(createKeephubTheme(themeConfig));
-    }
-  }, [user, themeConfig]);
+  }, [
+    jwtPluginToken,
+    onBeforeLift,
+    user,
+    groups,
+    languages,
+    orgChart,
+    themeConfig,
+  ]);
 
   useEffect(() => {
     if (isDebug() && !loading) {
@@ -139,27 +142,10 @@ const KeephubProvider = ({ children, onBeforeLift = null }) => {
         languages,
         orgunits: orgChart,
         jwtPluginToken,
-        theme,
+        themeConfig,
       }}
     >
-      <CssBaseline />
-      {loading ? (
-        <div
-          style={{
-            display: 'flex',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#efefef',
-          }}
-        >
-          <CircularProgress />
-        </div>
-      ) : (
-        <StyledEngineProvider injectFirst>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
-        </StyledEngineProvider>
-      )}
+      {!loading && children}
     </KeephubContext.Provider>
   );
 };
@@ -170,9 +156,9 @@ KeephubProvider.propTypes = {
 };
 
 const useKeephub = () => {
-  const { bridge, user, userGroups, languages, orgunits, theme } =
+  const { bridge, user, userGroups, languages, orgunits, themeConfig } =
     useContext(KeephubContext);
-  return { bridge, user, userGroups, languages, orgunits, theme };
+  return { bridge, user, userGroups, languages, orgunits, themeConfig };
 };
 
 export { KeephubProvider, KeephubContext, useKeephub };

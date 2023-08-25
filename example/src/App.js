@@ -3,7 +3,7 @@ import React from 'react';
 import Example from './Example';
 
 const App = () => {
-  const onBeforeLift = ({ user, orgChart }) => {
+  const onBeforeLift = (/*{ user, orgChart }*/) => {
     return new Promise(resolve => {
       resolve();
     });
