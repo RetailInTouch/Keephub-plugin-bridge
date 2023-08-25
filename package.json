@@ -6,7 +6,7 @@
   "private": true,
   "repository": "https://github.com/RetailInTouch/Keephub-plugin-bridge",
   "publishConfig": {
-    "@RetailInTouch:registry": "https://npm.pkg.github.com"
+    "registry": "https://npm.pkg.github.com/RetailInTouch"
   },
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
