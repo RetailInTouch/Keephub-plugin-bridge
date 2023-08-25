@@ -1,10 +1,13 @@
 {
-  "name": "keephub-plugin-bridge",
+  "name": "@RetailInTouch/keephub-plugin-bridge",
   "version": "2.0.0",
   "description": "",
   "author": "Tim Honders",
   "private": true,
   "repository": "https://github.com/RetailInTouch/Keephub-plugin-bridge",
+  "publishConfig": {
+    "@RetailInTouch:registry": "https://npm.pkg.github.com"
+  },
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
@@ -59,5 +62,6 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "test": "exit 0"
 }
