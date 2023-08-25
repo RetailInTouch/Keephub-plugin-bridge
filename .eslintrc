@@ -1,33 +1,48 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": [
-    "standard",
-    "standard-react",
-    "plugin:prettier/recommended",
-    "prettier/standard",
-    "prettier/react"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
   ],
+  "plugins": ["prettier"],
   "env": {
-    "node": true
+    "node": true,
+    "browser": true,
+    "es6": true
   },
   "parserOptions": {
     "ecmaVersion": 2020,
     "ecmaFeatures": {
       "legacyDecorators": true,
       "jsx": true
-    }
+    },
+    "babelOptions": {
+     "presets": ["@babel/preset-react"]
+    },
+    "requireConfigFile": false
   },
   "settings": {
     "react": {
-      "version": "16"
+      "version": "detect"
     }
   },
   "rules": {
-    "space-before-function-paren": 0,
-    "react/prop-types": 0,
-    "react/jsx-handler-names": 0,
-    "react/jsx-fragments": 0,
-    "react/no-unused-prop-types": 0,
-    "import/export": 0
+      "prettier/prettier": [
+        // customizing prettier rules (unfortunately not many of them are customizable)
+        "error",
+        {
+          "singleQuote": true,
+          "trailingComma": "all",
+          "arrowParens": "avoid",
+          "semi": true
+        }
+      ],
+      "no-undef": "error",
+      "no-console": "warn",
+      "eqeqeq": ["error", "always"], // adding some custom ESLint rules
+      "no-unused-vars": "warn",
+      "no-duplicate-imports": "error",
+      "react/no-unused-prop-types": "error"
   }
 }

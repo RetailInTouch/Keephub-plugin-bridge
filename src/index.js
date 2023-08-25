@@ -1,11 +1,4 @@
-import React from 'react';
-
+import { KeephubContext, KeephubProvider, useKeephub } from './KeephubProvider';
 import KeephubRouter from './KeephubRouter';
-import { KeephubProvider, KeephubContext, useKeephub } from './KeephubProvider';
 
-export {
-    KeephubProvider,
-    KeephubRouter,
-    KeephubContext,
-    useKeephub  
-}
+export { KeephubProvider, KeephubRouter, KeephubContext, useKeephub };

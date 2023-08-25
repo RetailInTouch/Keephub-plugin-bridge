@@ -1,195 +1,196 @@
 class KeephubBridge {
+  constructor(origin, iframe = true, debug = false) {
+    this.origin = origin;
+    this.listeners = {};
+    this.iframe = iframe;
+    this.debug = debug;
 
-    constructor(origin, iframe=true, debug=false) {
+    window.addEventListener('message', this.receiveMessage.bind(this));
+  }
 
-        this.origin = origin;
-        this.listeners = {};
-        this.iframe = iframe;
-        this.debug = debug;
+  clean() {
+    window.removeEventListener('message', this.receiveMessage.bind(this));
+  }
 
-        window.addEventListener('message', this.receiveMessage.bind(this));
+  receiveMessage(event) {
+    const { origin, data } = event;
+
+    this.log('[KeephubBridge] receiveMessage ', event);
+
+    if (origin !== this.origin && this.origin !== '*') {
+      this.log(
+        '[KeephubBridge] receiveMessage wrong origin:' +
+          origin +
+          ' ' +
+          this.origin,
+      );
+      return;
     }
 
-    clean() {
-        window.removeEventListener('message', this.receiveMessage.bind(this));
-    }
-    
-    receiveMessage(event) {
-        const { origin, data } = event;
-
-        this.log('[KeephubBridge] receiveMessage ', event);
-
-        if (origin !== this.origin && this.origin !== '*') { 
-            this.log('[KeephubBridge] receiveMessage wrong origin:' + origin + ' ' + this.origin);
-            return; 
-        }
-
-        if (data.action === undefined) {
-            return; 
-        }
-
-        this.log('[KeephubBridge] receiveMessage ' + data.action , data);
-
-        if (data.action) {
-
-            switch (data.action) {
-
-                case 'userData':
-                    if (!this.iframe) { data.data = {}; }
-
-                    this.dispatch('userData', data.data)
-                    break;
-
-                case 'themeConfig':
-                    if (!this.iframe) { data.data = {}; }
-                    this.dispatch('themeConfig', data.data)
-                    break;
-
-                case 'languageConfig':
-                    if (!this.iframe) { data.data = []; }
-                    this.dispatch('languageConfig', data.data)
-                    break;
-
-                case 'groups':
-                    if (!this.iframe) { data.data = {}; }
-                    this.dispatch('groups', data.data)
-                    break;
-
-                case 'orgChart':
-                    if (!this.iframe) { data.data = []; }
-                    this.dispatch('orgChart', data.data)
-                    break;
-
-                case 'changeIframeHeight':
-                    this.dispatch('changeIframeHeight', data)
-                    break;
-
-                case 'navigate':
-                    this.dispatch('navigate', data)
-                    break;
-
-                case 'locationChange':
-                    this.dispatch('locationChange', data)
-                    break;
-
-                case 'locationPop':
-                    this.dispatch('locationPop')
-                    break;
-
-                case 'barcode':
-                    this.dispatch('barcode', data.data)
-                    break;
-
-                case 'jwtPluginToken':
-                    this.dispatch('jwtPluginToken', data.data)
-                    break;
- 
-                default:
-                    break;
-
-            }
-
-        }
-
+    if (data.action === undefined) {
+      return;
     }
 
-    postMessage(action, data=null) {
+    this.log('[KeephubBridge] receiveMessage ' + data.action, data);
 
-        const payload = {
-            action: action,
-            ...data
-        }
+    if (data.action) {
+      switch (data.action) {
+        case 'userData':
+          if (!this.iframe) {
+            data.data = {};
+          }
 
-        this.log('[KeephubBridge] postMessage ' + action, data);
+          this.dispatch('userData', data.data);
+          break;
 
-        window.top.postMessage(payload, this.origin);
+        case 'themeConfig':
+          if (!this.iframe) {
+            data.data = {};
+          }
+          this.dispatch('themeConfig', data.data);
+          break;
+
+        case 'languageConfig':
+          if (!this.iframe) {
+            data.data = [];
+          }
+          this.dispatch('languageConfig', data.data);
+          break;
+
+        case 'groups':
+          if (!this.iframe) {
+            data.data = {};
+          }
+          this.dispatch('groups', data.data);
+          break;
+
+        case 'orgChart':
+          if (!this.iframe) {
+            data.data = [];
+          }
+          this.dispatch('orgChart', data.data);
+          break;
+
+        case 'changeIframeHeight':
+          this.dispatch('changeIframeHeight', data);
+          break;
+
+        case 'navigate':
+          this.dispatch('navigate', data);
+          break;
+
+        case 'locationChange':
+          this.dispatch('locationChange', data);
+          break;
+
+        case 'locationPop':
+          this.dispatch('locationPop');
+          break;
+
+        case 'barcode':
+          this.dispatch('barcode', data.data);
+          break;
+
+        case 'jwtPluginToken':
+          this.dispatch('jwtPluginToken', data.data);
+          break;
+
+        default:
+          break;
+      }
+    }
+  }
+
+  postMessage(action, data = null) {
+    const payload = {
+      action,
+      ...data,
+    };
+
+    this.log('[KeephubBridge] postMessage ' + action, data);
+
+    window.top.postMessage(payload, this.origin);
+  }
+
+  log(message, ...args) {
+    if (this.debug) {
+      console.log(message, args); // eslint-disable-line no-console
+    }
+  }
+
+  subscribe(action, callback) {
+    if (!Object.prototype.hasOwnProperty.call(this.listeners, action)) {
+      this.listeners[action] = [];
     }
 
-    log(message, ...args) {
-        if (this.debug) {
-            console.log(message, args);
-        }
-    }
-    
-    subscribe(action, callback) {
+    const index = this.listeners[action].push(callback) - 1;
 
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, action)) {
-            this.listeners[action] = [];
-        }
+    return () => {
+      delete this.listeners[action][index];
+    };
+  }
 
-        var index = this.listeners[action].push(callback) -1;
-        
-        return () => {
-            delete this.listeners[action][index];
-        };
+  dispatch(action, data) {
+    if (!Object.prototype.hasOwnProperty.call(this.listeners, action)) {
+      return;
     }
 
-    dispatch(action, data) {
-        
-        if (!Object.prototype.hasOwnProperty.call(this.listeners, action)) { return; }
+    this.listeners[action].forEach(function (callback) {
+      callback(data !== undefined ? data : {});
+    });
+  }
 
-        this.listeners[action].forEach(function(callback) {
-            callback(data !== undefined ? data : {});
-        });
-    }
+  // Actions
 
+  userData() {
+    this.postMessage('userData');
+  }
 
-    // Actions
+  themeConfig() {
+    this.postMessage('themeConfig');
+  }
 
-    userData() {
-        this.postMessage('userData'); 
-    }
+  languageConfig() {
+    this.postMessage('languageConfig');
+  }
 
-    themeConfig() {
-        this.postMessage('themeConfig'); 
-    }
+  groups() {
+    this.postMessage('groups');
+  }
 
-    languageConfig() {
-        this.postMessage('languageConfig'); 
-    }
+  jwtPluginToken() {
+    this.postMessage('jwtPluginToken');
+  }
 
-    groups() {
-        this.postMessage('groups'); 
-    }
+  orgChart() {
+    this.postMessage('orgChart');
+  }
 
-    jwtPluginToken() {
-        this.postMessage('jwtPluginToken'); 
-    }
+  changeLocation(location) {
+    this.postMessage('locationChange', {
+      location,
+    });
+  }
 
-    orgChart() {
-        this.postMessage('orgChart'); 
-    }
+  navigate(page) {
+    this.postMessage('navigate', {
+      page,
+    });
+  }
 
-    changeLocation(location) {
+  setIframeHeight(height) {
+    this.postMessage('changeIframeHeight', {
+      height,
+    });
+  }
 
-        this.postMessage('locationChange', {
-            location: location
-        });
+  startScanner() {
+    this.postMessage('startScanner');
+  }
 
-    }
-
-    navigate(page) {
-
-        this.postMessage('navigate', {
-            page: page
-        });
-
-    }
-
-    setIframeHeight(height) {
-        this.postMessage('changeIframeHeight', {
-            height: height
-        });
-    }
-
-    startScanner() {
-        this.postMessage('startScanner');
-    }
-
-    stopScanner() {
-        this.postMessage('stopScanner');
-    }
-
+  stopScanner() {
+    this.postMessage('stopScanner');
+  }
 }
 
 export default KeephubBridge;

@@ -10,22 +10,19 @@
     "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@mui/material": "^5.11.15",
-    "@mui/styles": "^5.11.13",
+    "@emotion/react": "link:../node_modules/@emotion/react",
+    "@emotion/styled": "link:../node_modules/@emotion/styled",
+    "@mui/material": "link:../node_modules/@mui/material",
+    "@mui/styles": "link:../node_modules/@mui/styles",
     "keephub-plugin-bridge": "link:..",
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
     "react-router-dom": "5.1.2",
-    "react-scripts": "link:../node_modules/react-scripts"
+    "react-scripts": "link:../node_modules/react-scripts",
+    "lodash.merge": "^4.6.1"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "babel-eslint": "10.1.0"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
   },
   "browserslist": [
     ">0.2%",

@@ -1,26 +1,35 @@
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  Container,
+  Typography,
+} from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { createKeephubTheme } from './utils/createKeephubTheme';
+import { useKeephub } from 'keephub-plugin-bridge';
 import React from 'react';
 
-import { useKeephub } from 'keephub-plugin-bridge';
-
-import Container from '@mui/material/Container'
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
-import Typography from '@mui/material/Typography'
-
 const Example = () => {
-    const { user } = useKeephub();
+  const { user, themeConfig } = useKeephub();
+  const theme = createKeephubTheme(themeConfig);
 
-	return (
-		<Container maxWidth="sm">
-			<Card style={{marginBottom: 10}}>
-				<CardHeader title="Demo plugin" style={{height: '40px' }} />
-				<CardContent>
-					<Typography>Tekst</Typography>
-				</CardContent>
-			</Card>
-		</Container>
-	);
-}
+  return (
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Container maxWidth="sm">
+          <Card style={{ marginBottom: 10 }}>
+            <CardHeader title="Demo plugin" style={{ height: '40px' }} />
+            <CardContent>
+              <Typography>{user?.name || 'user'}</Typography>
+            </CardContent>
+          </Card>
+        </Container>
+      </ThemeProvider>
+    </StyledEngineProvider>
+  );
+};
 
-export default Example
+export default Example;
