@@ -8,7 +8,7 @@ import {
 import CssBaseline from '@mui/material/CssBaseline';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 import { createKeephubTheme } from './utils/createKeephubTheme';
-import { useKeephub } from 'keephub-plugin-bridge';
+import { useKeephub, KeephubRouter } from 'keephub-plugin-bridge';
 import React from 'react';
 
 const Example = () => {
@@ -19,14 +19,16 @@ const Example = () => {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container maxWidth="sm">
-          <Card style={{ marginBottom: 10 }}>
-            <CardHeader title="Demo plugin" style={{ height: '40px' }} />
-            <CardContent>
-              <Typography>{user?.name || 'user'}</Typography>
-            </CardContent>
-          </Card>
-        </Container>
+        <KeephubRouter>
+          <Container maxWidth="sm">
+            <Card style={{ marginBottom: 10 }}>
+              <CardHeader title="Demo plugin" style={{ height: '40px' }} />
+              <CardContent>
+                <Typography>{user?.name || 'user'}</Typography>
+              </CardContent>
+            </Card>
+          </Container>
+        </KeephubRouter>
       </ThemeProvider>
     </StyledEngineProvider>
   );

@@ -11,12 +11,12 @@ const HistoryListener = ({ children }) => {
       bridge.changeLocation(location.pathname);
     });
 
-    const listener = bridge.subscribe('locationPop', () => {
+    const unsubscribe = bridge.subscribe('locationPop', () => {
       history.goBack();
     });
 
     return () => {
-      listener.remove();
+      unsubscribe();
       unlisten();
     };
   }, [bridge, history]);
